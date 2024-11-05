@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbEntityÜrünModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'DbEntityÜrün.dbo.TBL_ADMİN' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TBL_ADMİN">
+          <Property Name="ID" Type="tinyint" />
+          <Property Name="KullanıcıAdı" Type="varchar" MaxLength="15" />
+          <Property Name="Şifre" Type="varchar" MaxLength="15" />
+        </EntityType>-->
+        <EntityType Name="TBL_KATEGORİ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="TBL_MÜŞTERİ">
+          <Key>
+            <PropertyRef Name="MÜŞTERİID" />
+          </Key>
+          <Property Name="MÜŞTERİID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MÜŞTERİAD" Type="varchar" MaxLength="15" />
+          <Property Name="MÜŞTERİSOYAD" Type="varchar" MaxLength="15" />
+          <Property Name="ŞEHİR" Type="varchar" MaxLength="13" />
+          <Property Name="DURUM" Type="bit" />
+        </EntityType>
+        <EntityType Name="TBL_SATIŞ">
+          <Key>
+            <PropertyRef Name="SATIŞID" />
+          </Key>
+          <Property Name="SATIŞID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ÜRÜN" Type="int" />
+          <Property Name="MÜŞTERİ" Type="int" />
+          <Property Name="FİYAT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TARİH" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="TBL_ÜRÜN">
+          <Key>
+            <PropertyRef Name="URUNID" />
+          </Key>
+          <Property Name="URUNID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URUNAD" Type="varchar" MaxLength="30" />
+          <Property Name="MARKA" Type="varchar" MaxLength="30" />
+          <Property Name="STOK" Type="smallint" />
+          <Property Name="FİYAT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DURUMM" Type="bit" />
+          <Property Name="KATEGORİ" Type="int" />
+        </EntityType>
+        <Association Name="FK_TBL_SATIŞ_TBL_MÜŞTERİ">
+          <End Role="TBL_MÜŞTERİ" Type="Self.TBL_MÜŞTERİ" Multiplicity="0..1" />
+          <End Role="TBL_SATIŞ" Type="Self.TBL_SATIŞ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_MÜŞTERİ">
+              <PropertyRef Name="MÜŞTERİID" />
+            </Principal>
+            <Dependent Role="TBL_SATIŞ">
+              <PropertyRef Name="MÜŞTERİ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SATIŞ_TBL_ÜRÜN">
+          <End Role="TBL_ÜRÜN" Type="Self.TBL_ÜRÜN" Multiplicity="0..1" />
+          <End Role="TBL_SATIŞ" Type="Self.TBL_SATIŞ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ÜRÜN">
+              <PropertyRef Name="URUNID" />
+            </Principal>
+            <Dependent Role="TBL_SATIŞ">
+              <PropertyRef Name="ÜRÜN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_ÜRÜN_TBL_KATEGORİ">
+          <End Role="TBL_KATEGORİ" Type="Self.TBL_KATEGORİ" Multiplicity="0..1" />
+          <End Role="TBL_ÜRÜN" Type="Self.TBL_ÜRÜN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KATEGORİ">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_ÜRÜN">
+              <PropertyRef Name="KATEGORİ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="MARKAGETİR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DbEntityÜrünModelStoreContainer">
+          <EntitySet Name="TBL_KATEGORİ" EntityType="Self.TBL_KATEGORİ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_MÜŞTERİ" EntityType="Self.TBL_MÜŞTERİ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SATIŞ" EntityType="Self.TBL_SATIŞ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ÜRÜN" EntityType="Self.TBL_ÜRÜN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBL_SATIŞ_TBL_MÜŞTERİ" Association="Self.FK_TBL_SATIŞ_TBL_MÜŞTERİ">
+            <End Role="TBL_MÜŞTERİ" EntitySet="TBL_MÜŞTERİ" />
+            <End Role="TBL_SATIŞ" EntitySet="TBL_SATIŞ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SATIŞ_TBL_ÜRÜN" Association="Self.FK_TBL_SATIŞ_TBL_ÜRÜN">
+            <End Role="TBL_ÜRÜN" EntitySet="TBL_ÜRÜN" />
+            <End Role="TBL_SATIŞ" EntitySet="TBL_SATIŞ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_ÜRÜN_TBL_KATEGORİ" Association="Self.FK_TBL_ÜRÜN_TBL_KATEGORİ">
+            <End Role="TBL_KATEGORİ" EntitySet="TBL_KATEGORİ" />
+            <End Role="TBL_ÜRÜN" EntitySet="TBL_ÜRÜN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbEntityÜrünModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBL_KATEGORİ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBL_ÜRÜN" Relationship="Self.FK_TBL_ÜRÜN_TBL_KATEGORİ" FromRole="TBL_KATEGORİ" ToRole="TBL_ÜRÜN" />
+        </EntityType>
+        <EntityType Name="TBL_MÜŞTERİ">
+          <Key>
+            <PropertyRef Name="MÜŞTERİID" />
+          </Key>
+          <Property Name="MÜŞTERİID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MÜŞTERİAD" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MÜŞTERİSOYAD" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ŞEHİR" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBL_SATIŞ" Relationship="Self.FK_TBL_SATIŞ_TBL_MÜŞTERİ" FromRole="TBL_MÜŞTERİ" ToRole="TBL_SATIŞ" />
+          <Property Name="DURUM" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TBL_SATIŞ">
+          <Key>
+            <PropertyRef Name="SATIŞID" />
+          </Key>
+          <Property Name="SATIŞID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ÜRÜN" Type="Int32" />
+          <Property Name="MÜŞTERİ" Type="Int32" />
+          <Property Name="FİYAT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TARİH" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="TBL_MÜŞTERİ" Relationship="Self.FK_TBL_SATIŞ_TBL_MÜŞTERİ" FromRole="TBL_SATIŞ" ToRole="TBL_MÜŞTERİ" />
+          <NavigationProperty Name="TBL_ÜRÜN" Relationship="Self.FK_TBL_SATIŞ_TBL_ÜRÜN" FromRole="TBL_SATIŞ" ToRole="TBL_ÜRÜN" />
+        </EntityType>
+        <EntityType Name="TBL_ÜRÜN">
+          <Key>
+            <PropertyRef Name="URUNID" />
+          </Key>
+          <Property Name="URUNID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URUNAD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MARKA" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="STOK" Type="Int16" />
+          <Property Name="FİYAT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DURUMM" Type="Boolean" />
+          <Property Name="KATEGORİ" Type="Int32" />
+          <NavigationProperty Name="TBL_KATEGORİ" Relationship="Self.FK_TBL_ÜRÜN_TBL_KATEGORİ" FromRole="TBL_ÜRÜN" ToRole="TBL_KATEGORİ" />
+          <NavigationProperty Name="TBL_SATIŞ" Relationship="Self.FK_TBL_SATIŞ_TBL_ÜRÜN" FromRole="TBL_ÜRÜN" ToRole="TBL_SATIŞ" />
+        </EntityType>
+        <Association Name="FK_TBL_ÜRÜN_TBL_KATEGORİ">
+          <End Role="TBL_KATEGORİ" Type="Self.TBL_KATEGORİ" Multiplicity="0..1" />
+          <End Role="TBL_ÜRÜN" Type="Self.TBL_ÜRÜN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_KATEGORİ">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_ÜRÜN">
+              <PropertyRef Name="KATEGORİ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SATIŞ_TBL_MÜŞTERİ">
+          <End Role="TBL_MÜŞTERİ" Type="Self.TBL_MÜŞTERİ" Multiplicity="0..1" />
+          <End Role="TBL_SATIŞ" Type="Self.TBL_SATIŞ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_MÜŞTERİ">
+              <PropertyRef Name="MÜŞTERİID" />
+            </Principal>
+            <Dependent Role="TBL_SATIŞ">
+              <PropertyRef Name="MÜŞTERİ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SATIŞ_TBL_ÜRÜN">
+          <End Role="TBL_ÜRÜN" Type="Self.TBL_ÜRÜN" Multiplicity="0..1" />
+          <End Role="TBL_SATIŞ" Type="Self.TBL_SATIŞ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ÜRÜN">
+              <PropertyRef Name="URUNID" />
+            </Principal>
+            <Dependent Role="TBL_SATIŞ">
+              <PropertyRef Name="ÜRÜN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbEntityÜrünEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBL_KATEGORİ" EntityType="Self.TBL_KATEGORİ" />
+          <EntitySet Name="TBL_MÜŞTERİ" EntityType="Self.TBL_MÜŞTERİ" />
+          <EntitySet Name="TBL_SATIŞ" EntityType="Self.TBL_SATIŞ" />
+          <EntitySet Name="TBL_ÜRÜN" EntityType="Self.TBL_ÜRÜN" />
+          <AssociationSet Name="FK_TBL_ÜRÜN_TBL_KATEGORİ" Association="Self.FK_TBL_ÜRÜN_TBL_KATEGORİ">
+            <End Role="TBL_KATEGORİ" EntitySet="TBL_KATEGORİ" />
+            <End Role="TBL_ÜRÜN" EntitySet="TBL_ÜRÜN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SATIŞ_TBL_MÜŞTERİ" Association="Self.FK_TBL_SATIŞ_TBL_MÜŞTERİ">
+            <End Role="TBL_MÜŞTERİ" EntitySet="TBL_MÜŞTERİ" />
+            <End Role="TBL_SATIŞ" EntitySet="TBL_SATIŞ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SATIŞ_TBL_ÜRÜN" Association="Self.FK_TBL_SATIŞ_TBL_ÜRÜN">
+            <End Role="TBL_ÜRÜN" EntitySet="TBL_ÜRÜN" />
+            <End Role="TBL_SATIŞ" EntitySet="TBL_SATIŞ" />
+          </AssociationSet>
+          <FunctionImport Name="MARKAGETİR" ReturnType="Collection(String)" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbEntityÜrünModelStoreContainer" CdmEntityContainer="DbEntityÜrünEntities">
+          <EntitySetMapping Name="TBL_KATEGORİ">
+            <EntityTypeMapping TypeName="DbEntityÜrünModel.TBL_KATEGORİ">
+              <MappingFragment StoreEntitySet="TBL_KATEGORİ">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_MÜŞTERİ">
+            <EntityTypeMapping TypeName="DbEntityÜrünModel.TBL_MÜŞTERİ">
+              <MappingFragment StoreEntitySet="TBL_MÜŞTERİ">
+                <ScalarProperty Name="DURUM" ColumnName="DURUM" />
+                <ScalarProperty Name="MÜŞTERİID" ColumnName="MÜŞTERİID" />
+                <ScalarProperty Name="MÜŞTERİAD" ColumnName="MÜŞTERİAD" />
+                <ScalarProperty Name="MÜŞTERİSOYAD" ColumnName="MÜŞTERİSOYAD" />
+                <ScalarProperty Name="ŞEHİR" ColumnName="ŞEHİR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SATIŞ">
+            <EntityTypeMapping TypeName="DbEntityÜrünModel.TBL_SATIŞ">
+              <MappingFragment StoreEntitySet="TBL_SATIŞ">
+                <ScalarProperty Name="SATIŞID" ColumnName="SATIŞID" />
+                <ScalarProperty Name="ÜRÜN" ColumnName="ÜRÜN" />
+                <ScalarProperty Name="MÜŞTERİ" ColumnName="MÜŞTERİ" />
+                <ScalarProperty Name="FİYAT" ColumnName="FİYAT" />
+                <ScalarProperty Name="TARİH" ColumnName="TARİH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ÜRÜN">
+            <EntityTypeMapping TypeName="DbEntityÜrünModel.TBL_ÜRÜN">
+              <MappingFragment StoreEntitySet="TBL_ÜRÜN">
+                <ScalarProperty Name="URUNID" ColumnName="URUNID" />
+                <ScalarProperty Name="URUNAD" ColumnName="URUNAD" />
+                <ScalarProperty Name="MARKA" ColumnName="MARKA" />
+                <ScalarProperty Name="STOK" ColumnName="STOK" />
+                <ScalarProperty Name="FİYAT" ColumnName="FİYAT" />
+                <ScalarProperty Name="DURUMM" ColumnName="DURUMM" />
+                <ScalarProperty Name="KATEGORİ" ColumnName="KATEGORİ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MARKAGETİR" FunctionName="DbEntityÜrünModel.Store.MARKAGETİR" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
